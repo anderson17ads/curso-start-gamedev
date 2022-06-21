@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4417c27c6e5114853a3e4450ef76e4d2, type: 3}
+  m_Name: NPC_1
+  m_EditorClassIdentifier: 
+  actor: {fileID: 4194025795648303926, guid: f281ecc715a84cec2b296e189ef09b13, type: 3}
+  speakerSprite: {fileID: 0}
+  sentence: 
+  dialogues:
+  - actorName: 
+    profile: {fileID: 0}
+    sentence:
+      portuguese: 
+      english: 
+      spanish: 
+  - actorName: "Mo\xE7a"
+    profile: {fileID: 0}
+    sentence:
+      portuguese: Oii, bom dia!
+      english: Hi, good morning!
+      spanish: Hola buenos dias!
+  - actorName: Personagem
+    profile: {fileID: 0}
+    sentence:
+      portuguese: Bom dia, tudo bem?
+      english: Good morning, how are you?
+      spanish: "Buenos dias, qu\xE9 tal?"
+  - actorName: "Mo\xE7a"
+    profile: {fileID: 0}
+    sentence:
+      portuguese: Estou otimaaa!
+      english: I am great!
+      spanish: Estoy muy bien!
