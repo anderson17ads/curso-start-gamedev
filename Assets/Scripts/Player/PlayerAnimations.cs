@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    [SerializeField]
+    private Transform attackPoint;
+
+    [SerializeField]
+    private float radiusAttackPoint;
+
+    [SerializeField]
+    private LayerMask enemyLayer;
+
     private Player player;
 
     private Animator playerAnimations;
@@ -176,5 +185,22 @@ public class PlayerAnimations : MonoBehaviour
             isHitting = false;
             timeCount = 0f;
         }
+    }
+
+    // Attack
+    private void onAttack()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, radiusAttackPoint, enemyLayer);
+
+        if (hit == null) {
+            return;
+        }
+
+        hit.GetComponent<SkeletonAnimations>().onHitting();
+    }
+
+    private void OnDrawGizmosSelected() 
+    {
+        Gizmos.DrawWireSphere(attackPoint.position, radiusAttackPoint);
     }
 }
