@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class Carrot : MonoBehaviour
 {
+    [Header("Audio")]
+    private AudioSource audioSource;
+
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    private AudioClip dropSFX;
+
     private bool isCollision;
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     
     void Update()
     {
@@ -16,7 +29,12 @@ public class Carrot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && isCollision) {
             if (PlayerInventory.instance.carrot < PlayerInventory.instance.carrotLimit) {
                 PlayerInventory.instance.carrot++;
-                Destroy(gameObject);
+                
+                audioSource.PlayOneShot(dropSFX);
+
+                spriteRenderer.enabled = false;
+                
+                Destroy(gameObject, dropSFX.length);
             }
         }
     }

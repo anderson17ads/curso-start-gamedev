@@ -8,11 +8,13 @@ public class DialogueControl : MonoBehaviour
     [Header("Components")]
     public GameObject dialogueObject;
 
-    public Image profileImage;
+    public Image actorProfileImage;
 
     public Text sentenceText;
 
     public Text actorNameText;
+
+    private Player player;
 
     [Header("Settings")]
     public float typingSpeed;
@@ -23,6 +25,10 @@ public class DialogueControl : MonoBehaviour
 
     private string[] sentences;
 
+    private string[] actorNames;
+
+    private Sprite[] actorProfiles;
+
     public static DialogueControl instance;
 
     public bool isShowing
@@ -31,11 +37,17 @@ public class DialogueControl : MonoBehaviour
         set { _isShowing = value; }
     }
 
-    private void Awake() {
+    private void Start() 
+    {
+        player = FindObjectOfType<Player>();    
+    }
+
+    private void Awake() 
+    {
         instance = this;
     }
 
-    public void speech(string[] txt)
+    public void speech(string[] txt, Sprite[] actorProfile, string[] actorName)
     {
         if (txt.Length == 0) {
             return;
@@ -45,13 +57,18 @@ public class DialogueControl : MonoBehaviour
             dialogueObject.SetActive(true);
             
             sentences = txt;
+            actorNames = actorName;
+            actorProfiles = actorProfile;
 
+            actorProfileImage.sprite = actorProfiles[index];
+            actorNameText.text = actorNames[index];
             StartCoroutine(typeSentence());
 
             _isShowing = true;
         }
 
         if (_isShowing) {
+            player.isPause = true;
             nextSentence();
         }
     }
@@ -63,6 +80,9 @@ public class DialogueControl : MonoBehaviour
 
             if (index < sentences.Length -1) {
                 index++;
+                
+                actorProfileImage.sprite = actorProfiles[index];
+                actorNameText.text = actorNames[index];
                 StartCoroutine(typeSentence());
                 return;
             }
@@ -77,6 +97,8 @@ public class DialogueControl : MonoBehaviour
         dialogueObject.SetActive(false);
         sentences = null;
         _isShowing = false;
+        player.isPause = false;
+
         sentenceText.text = "";
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
     private bool _isCasting;
 
     private bool _isHammering;
+
+    private bool _isPause;
 
     public Vector2 direction
     {
@@ -100,6 +103,12 @@ public class Player : MonoBehaviour
         set { _isHammering = value; }
     }
 
+    public bool isPause
+    {
+        get { return _isPause; }
+        set { _isPause = value; }
+    }
+
     private void Start() {
         rig = GetComponent<Rigidbody2D>();
 
@@ -109,6 +118,10 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
+        if (isPause) {
+            return;
+        }
+
         onInput();
         onRun();
         onRoll();
@@ -118,6 +131,10 @@ public class Player : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if (isPause) {
+            return;
+        }
+        
         onMove();
     }
 

@@ -14,13 +14,21 @@ public class DialogueNPC : MonoBehaviour
 
     private List<string> sentences = new List<string>();
 
+    private List<string> actorNames = new List<string>();
+
+    private List<Sprite> actorProfiles = new List<Sprite>();
+
     private void Start() {
-        getSentencesText();
+        getDialogues();
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.E) && playerHit) {
-            DialogueControl.instance.speech(sentences.ToArray());            
+            DialogueControl.instance.speech(
+                sentences.ToArray(),
+                actorProfiles.ToArray(), 
+                actorNames.ToArray()
+            );
         }
     }
 
@@ -44,9 +52,11 @@ public class DialogueNPC : MonoBehaviour
         }
     }
 
-    private void getSentencesText()
+    private void getDialogues()
     {
         for(int i = 1; i < dialogueSettings.dialogues.Count; i++) {
+            actorProfiles.Add(dialogueSettings.dialogues[i].profile);
+            actorNames.Add(dialogueSettings.dialogues[i].actorName);
             sentences.Add(handleSentenceLanguage(i));
         }
     }

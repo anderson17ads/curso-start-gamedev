@@ -8,9 +8,15 @@ public class Skeleton : MonoBehaviour
 {
     private NavMeshAgent agent;
 
+    private SkeletonAnimations skeletonAnimations;
+
     private Player player;
 
-    private SkeletonAnimations skeletonAnimations;
+    [SerializeField]
+    private LayerMask playerLayer;
+
+    [SerializeField]
+    private float radius;
 
     [SerializeField]
     private Image _healthBar;
@@ -21,6 +27,8 @@ public class Skeleton : MonoBehaviour
     private float _healthCurrent;
 
     private bool _isDead;
+
+    private bool isCollision;
 
     public Image healthBar
     {
@@ -63,12 +71,16 @@ public class Skeleton : MonoBehaviour
         onMove();
     }
 
+    private void FixedUpdate() {
+        onDetectPlayer();
+    }
+
     private void onMove()
     {
-        if (_isDead) {
+        if (_isDead || !isCollision) {
             return;
         }
-        
+
         agent.SetDestination(player.transform.position);
 
         transform.eulerAngles = ((player.transform.position.x - transform.position.x) > 0)
@@ -81,5 +93,25 @@ public class Skeleton : MonoBehaviour
         }
 
         skeletonAnimations.onTransition(1);
+    }
+
+    private void onDetectPlayer()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, radius, playerLayer);
+
+        if (hit != null) {
+            isCollision = true;
+            agent.isStopped = false;
+            return;
+        }
+
+        isCollision = false;
+        skeletonAnimations.onTransition(0);
+        agent.isStopped = true;
+    }
+
+    private void OnDrawGizmosSelected() 
+    {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
